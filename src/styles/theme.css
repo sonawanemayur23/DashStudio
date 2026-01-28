@@ -1,68 +1,196 @@
 :root[data-theme="dark"] {
-  /* Dark Theme Colors */
-  --bg-primary: #0a0e27;
-  --bg-secondary: #131b2e;
-  --bg-tertiary: #1a2332;
-  --bg-card: #1e2838;
-  --bg-hover: #252f42;
+  /* Dark Theme Colors - Modern & Rich */
+  --bg-primary: #09090b;
+  --bg-secondary: #111113;
+  --bg-tertiary: #18181b;
+  --bg-card: #18181b;
+  --bg-card-hover: #1f1f23;
+  --bg-hover: #27272a;
+  --bg-elevated: #1c1c1f;
   
-  --text-primary: #ffffff;
-  --text-secondary: #a0aec0;
-  --text-tertiary: #718096;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-muted: #52525b;
   
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
-  --accent-hover: #2563eb;
+  --accent-primary: #006A4E;
+  --accent-secondary: #008060;
+  --accent-tertiary: #00996B;
+  --accent-hover: #004D38;
   
-  --border-color: #2d3748;
-  --border-light: #374151;
+  --border-color: #27272a;
+  --border-light: #3f3f46;
+  --border-accent: rgba(0, 106, 78, 0.3);
   
-  --success: #10b981;
+  --success: #22c55e;
   --warning: #f59e0b;
   --error: #ef4444;
+  --info: #3b82f6;
   
+  /* Extended Palette */
+  --purple-400: #a78bfa;
   --purple-500: #8b5cf6;
   --purple-600: #7c3aed;
+  --blue-400: #60a5fa;
   --blue-500: #3b82f6;
   --blue-600: #2563eb;
-  --green-500: #10b981;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --red-400: #f87171;
   --red-500: #ef4444;
+  --red-600: #dc2626;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --orange-500: #f97316;
+  --cyan-500: #06b6d4;
+  --pink-500: #ec4899;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #006A4E 0%, #008060 100%);
+  --gradient-secondary: linear-gradient(135deg, #004D38 0%, #006A4E 100%);
+  --gradient-accent: linear-gradient(135deg, #00996B 0%, #006A4E 50%, #004D38 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 106, 78, 0.1) 0%, rgba(0, 128, 96, 0.1) 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(0, 106, 78, 0.3);
+  --shadow-glow-lg: 0 0 40px rgba(0, 106, 78, 0.4);
+  
+  /* Blur */
+  --blur-sm: blur(8px);
+  --blur-md: blur(16px);
+  --blur-lg: blur(24px);
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  --transition-spring: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :root[data-theme="light"] {
-  /* Light Theme Colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f7fafc;
-  --bg-tertiary: #edf2f7;
+  /* Light Theme Colors - Clean & Modern */
+  --bg-primary: #fafafa;
+  --bg-secondary: #f4f4f5;
+  --bg-tertiary: #e4e4e7;
   --bg-card: #ffffff;
-  --bg-hover: #e2e8f0;
+  --bg-card-hover: #f8f8f8;
+  --bg-hover: #e4e4e7;
+  --bg-elevated: #ffffff;
   
-  --text-primary: #1a202c;
-  --text-secondary: #4a5568;
-  --text-tertiary: #718096;
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-tertiary: #71717a;
+  --text-muted: #a1a1aa;
   
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
-  --accent-hover: #2563eb;
+  --accent-primary: #006A4E;
+  --accent-secondary: #008060;
+  --accent-tertiary: #00996B;
+  --accent-hover: #004D38;
   
-  --border-color: #e2e8f0;
-  --border-light: #cbd5e0;
+  --border-color: #e4e4e7;
+  --border-light: #d4d4d8;
+  --border-accent: rgba(0, 106, 78, 0.3);
   
-  --success: #10b981;
+  --success: #22c55e;
   --warning: #f59e0b;
   --error: #ef4444;
+  --info: #3b82f6;
   
+  /* Extended Palette */
+  --purple-400: #a78bfa;
   --purple-500: #8b5cf6;
   --purple-600: #7c3aed;
+  --blue-400: #60a5fa;
   --blue-500: #3b82f6;
   --blue-600: #2563eb;
-  --green-500: #10b981;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --red-400: #f87171;
   --red-500: #ef4444;
+  --red-600: #dc2626;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --orange-500: #f97316;
+  --cyan-500: #06b6d4;
+  --pink-500: #ec4899;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #006A4E 0%, #008060 100%);
+  --gradient-secondary: linear-gradient(135deg, #004D38 0%, #006A4E 100%);
+  --gradient-accent: linear-gradient(135deg, #00996B 0%, #006A4E 50%, #004D38 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 106, 78, 0.05) 0%, rgba(0, 128, 96, 0.05) 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 20px rgba(0, 106, 78, 0.15);
+  --shadow-glow-lg: 0 0 40px rgba(0, 106, 78, 0.2);
+  
+  /* Blur */
+  --blur-sm: blur(8px);
+  --blur-md: blur(16px);
+  --blur-lg: blur(24px);
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  --transition-spring: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-primary);
+  color: white;
+}

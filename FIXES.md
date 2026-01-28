@@ -29,3 +29,5 @@ If pages still appear broken, check:
 - **Layout broken**: CSS variables not defined - check theme.css is loaded
 - **Components not rendering**: Check console for React errors
 
+
+

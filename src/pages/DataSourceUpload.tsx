@@ -1,14 +1,53 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, Bell, HelpCircle, Check, Lightbulb, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Search, Bell, HelpCircle, Check, ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Button from '../components/Button'
 import Card from '../components/Card'
+import FullPageLoading from '../components/FullPageLoading'
+import { useApp } from '../contexts/AppContext'
+import { ROUTES } from '../constants/routes'
 import './DataSourceUpload.css'
 
 const DataSourceUpload: React.FC = () => {
   const navigate = useNavigate()
+  const { addDataSource, addNotification, currentUser } = useApp()
   const [activeTab, setActiveTab] = useState<'schema' | 'preview'>('schema')
+  const [isLoading, setIsLoading] = useState(true)
+  const [isConnecting, setIsConnecting] = useState(false)
+  const [fileName] = useState('sales_data_q3_2023.csv')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handleConnect = () => {
+    setIsConnecting(true)
+  }
+
+  const handleConnectionComplete = () => {
+    addDataSource({
+      name: fileName.replace('.csv', '').replace(/_/g, ' '),
+      fileName: fileName,
+      status: 'connected',
+      rows: 15402,
+      columns: columns.filter(c => c.include).map(c => c.name),
+      uploadedAt: new Date().toISOString(),
+    })
+    addNotification({ type: 'success', message: 'Data source connected successfully!' })
+    navigate(ROUTES.SEMANTIC_MODEL)
+  }
+
+  const handleGenerateChart = () => {
+    addNotification({ type: 'info', message: 'Generating chart...' })
+    setTimeout(() => {
+      addNotification({ type: 'success', message: 'Chart generated! Redirecting to studio...' })
+      navigate(ROUTES.STUDIO)
+    }, 1500)
+  }
 
   const columns = [
     { name: 'Transaction_ID', type: 'String', sample: 'TXN-9821-A', include: true, aiDetected: false },
@@ -18,12 +57,44 @@ const DataSourceUpload: React.FC = () => {
     { name: 'Internal_Code_Legacy', type: 'String', sample: 'LEG-001', include: false, aiDetected: false },
   ]
 
+  if (isLoading) {
+    return (
+      <FullPageLoading
+        message="Analyzing Data"
+        subMessage="AI is detecting schema and data types..."
+        steps={[
+          'Reading file structure...',
+          'Detecting column types...',
+          'Analyzing data quality...',
+          'Ready for configuration',
+        ]}
+        duration={2500}
+      />
+    )
+  }
+
+  if (isConnecting) {
+    return (
+      <FullPageLoading
+        message="Connecting Dataset"
+        subMessage="Setting up your data source..."
+        steps={[
+          'Validating schema...',
+          'Creating data connections...',
+          'Indexing for queries...',
+          'Finalizing setup...',
+        ]}
+        duration={2500}
+        onComplete={handleConnectionComplete}
+      />
+    )
+  }
+
   return (
     <div className="data-source-upload-page">
       <Sidebar 
-        title="Insight Studio"
-        subtitle="AI-Powered BI"
-        user={{ name: 'Alex Morgan', role: 'Admin' }}
+        title="Olive"
+        user={currentUser}
       />
 
       <div className="main-content">
@@ -166,13 +237,19 @@ const DataSourceUpload: React.FC = () => {
 
             <Card className="suggestion-card">
               <div className="suggestion-header">
-                <Lightbulb size={20} className="suggestion-icon" />
+                <Sparkles size={20} className="suggestion-icon" />
                 <span className="suggestion-title">AI Suggestion</span>
               </div>
               <p className="suggestion-text">
                 I've detected <strong>Purchase_Date</strong> as a timeline and <strong>Revenue_Amount</strong> as a key metric.
               </p>
-              <Button variant="primary" size="sm" className="suggestion-button">
+              <Button 
+                variant="primary" 
+                size="sm" 
+                className="suggestion-button"
+                onClick={handleGenerateChart}
+                icon={<Sparkles size={14} />}
+              >
                 Generate 'Revenue over Time' Chart
               </Button>
             </Card>
@@ -202,14 +279,19 @@ const DataSourceUpload: React.FC = () => {
         </div>
 
         <div className="footer-actions">
-          <button className="cancel-link" onClick={() => navigate(-1)}>
+          <button className="cancel-link" onClick={() => navigate(ROUTES.DASHBOARDS)}>
             Cancel
           </button>
           <div className="footer-buttons">
-            <Button variant="outline" icon={<ArrowLeft size={16} />}>
+            <Button variant="outline" icon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
               Back
             </Button>
-            <Button variant="primary" icon={<ArrowRight size={16} />} iconPosition="right">
+            <Button 
+              variant="primary" 
+              icon={<ArrowRight size={16} />} 
+              iconPosition="right"
+              onClick={handleConnect}
+            >
               Connect Dataset
             </Button>
           </div>

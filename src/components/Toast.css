@@ -1,0 +1,118 @@
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  animation: slideIn var(--transition-slow) ease;
+  backdrop-filter: var(--blur-sm);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-message {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  margin: -4px -4px -4px 0;
+}
+
+.toast-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Toast Types */
+.toast-success {
+  border-left: 4px solid var(--green-500);
+}
+
+.toast-success .toast-icon {
+  color: var(--green-500);
+}
+
+.toast-error {
+  border-left: 4px solid var(--red-500);
+}
+
+.toast-error .toast-icon {
+  color: var(--red-500);
+}
+
+.toast-warning {
+  border-left: 4px solid var(--yellow-500);
+}
+
+.toast-warning .toast-icon {
+  color: var(--yellow-500);
+}
+
+.toast-info {
+  border-left: 4px solid var(--blue-500);
+}
+
+.toast-info .toast-icon {
+  color: var(--blue-500);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+}

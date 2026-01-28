@@ -1,12 +1,81 @@
-import React, { useState } from 'react'
-import { Search, Settings, Eye, Sparkles, Plus, Trash2, Save } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Search, Settings, Eye, Sparkles, Plus, Trash2, Save, ArrowRight } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Button from '../components/Button'
 import Card from '../components/Card'
+import FullPageLoading from '../components/FullPageLoading'
+import { useApp } from '../contexts/AppContext'
+import { ROUTES } from '../constants/routes'
 import './SemanticModel.css'
 
 const SemanticModel: React.FC = () => {
+  const navigate = useNavigate()
+  const { addNotification, currentUser } = useApp()
   const [selectedField, setSelectedField] = useState<string | null>('Total Revenue')
+  const [isLoading, setIsLoading] = useState(true)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handleAutoGenerate = () => {
+    setIsGenerating(true)
+  }
+
+  const handleGenerateComplete = () => {
+    setIsGenerating(false)
+    addNotification({ type: 'success', message: 'Semantic model generated successfully!' })
+  }
+
+  const handleSaveChanges = () => {
+    setIsSaving(true)
+    setTimeout(() => {
+      setIsSaving(false)
+      addNotification({ type: 'success', message: 'Changes saved successfully!' })
+    }, 1200)
+  }
+
+  const handlePreviewData = () => {
+    addNotification({ type: 'info', message: 'Opening data preview...' })
+  }
+
+  const handleGoToStudio = () => {
+    addNotification({ type: 'info', message: 'Redirecting to dashboard studio...' })
+    navigate(ROUTES.STUDIO)
+  }
+
+  if (isLoading) {
+    return (
+      <FullPageLoading
+        message="Loading Semantic Model"
+        subMessage="Preparing your data model..."
+      />
+    )
+  }
+
+  if (isGenerating) {
+    return (
+      <FullPageLoading
+        message="Auto-Generating Model"
+        subMessage="AI is analyzing your data structure..."
+        steps={[
+          'Scanning data sources...',
+          'Identifying dimensions...',
+          'Detecting measures...',
+          'Creating relationships...',
+          'Optimizing for queries...',
+        ]}
+        duration={3000}
+        onComplete={handleGenerateComplete}
+      />
+    )
+  }
 
   const dimensions = [
     { name: 'Order Date', source: 'public.orders.created_at', type: 'DATE' },
@@ -29,7 +98,7 @@ const SemanticModel: React.FC = () => {
     <div className="semantic-model-page">
       <Sidebar 
         title="Olive"
-        user={{ name: 'Alex Morgan', role: 'Admin' }}
+        user={currentUser}
       />
       
       <div className="model-sidebar">
@@ -84,11 +153,14 @@ const SemanticModel: React.FC = () => {
             <p className="page-description">Map raw data to business metrics for AI analysis.</p>
           </div>
           <div className="header-actions">
-            <Button variant="outline" icon={<Eye size={16} />}>
+            <Button variant="outline" icon={<Eye size={16} />} onClick={handlePreviewData}>
               Preview Data
             </Button>
-            <Button variant="primary" icon={<Sparkles size={16} />}>
-              Auto-Generate Model
+            <Button variant="outline" icon={<Sparkles size={16} />} onClick={handleAutoGenerate}>
+              Auto-Generate
+            </Button>
+            <Button variant="primary" icon={<ArrowRight size={16} />} onClick={handleGoToStudio}>
+              Go to Studio
             </Button>
           </div>
         </div>
@@ -263,11 +335,14 @@ const SemanticModel: React.FC = () => {
             </div>
 
             <div className="properties-footer">
-              <Button variant="ghost" size="sm" icon={<Trash2 size={16} />}>
+              <Button variant="ghost" size="sm" icon={<Trash2 size={16} />} onClick={() => {
+                setSelectedField(null)
+                addNotification({ type: 'info', message: 'Field removed' })
+              }}>
                 Delete
               </Button>
-              <Button variant="primary" size="sm" icon={<Save size={16} />}>
-                Save Changes
+              <Button variant="primary" size="sm" icon={<Save size={16} />} onClick={handleSaveChanges} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>
           </div>

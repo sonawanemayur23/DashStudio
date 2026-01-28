@@ -1,19 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search, Bell, User, Moon, Sun, Globe, Shield, CreditCard } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Card from '../components/Card'
 import Button from '../components/Button'
+import FullPageLoading from '../components/FullPageLoading'
 import { useTheme } from '../contexts/ThemeContext'
+import { useApp } from '../contexts/AppContext'
 import './Settings.css'
 
 const Settings: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
+  const { currentUser, addNotification } = useApp()
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handleAction = (action: string) => {
+    addNotification({ type: 'info', message: `${action} - Feature coming soon!` })
+  }
+
+  if (isLoading) {
+    return (
+      <FullPageLoading
+        message="Loading Settings"
+        subMessage="Preparing your preferences..."
+      />
+    )
+  }
 
   return (
     <div className="settings-page">
       <Sidebar 
         title="Olive"
-        user={{ name: 'Alex Morgan', role: 'Admin' }}
+        user={currentUser}
       />
 
       <div className="main-content">
@@ -30,7 +54,7 @@ const Settings: React.FC = () => {
               <Bell size={20} />
             </button>
             <div className="user-avatar-small">
-              <span>AM</span>
+              <span>{currentUser.name.split(' ').map(n => n[0]).join('')}</span>
             </div>
           </div>
         </div>
@@ -69,7 +93,7 @@ const Settings: React.FC = () => {
                     <p className="setting-description">Update your personal information</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => handleAction('Edit Profile')}>
                   Edit Profile
                 </Button>
               </div>
@@ -89,7 +113,7 @@ const Settings: React.FC = () => {
                     <p className="setting-description">Olive</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => handleAction('Change Workspace')}>
                   Change
                 </Button>
               </div>
@@ -109,7 +133,7 @@ const Settings: React.FC = () => {
                     <p className="setting-description">Last changed 30 days ago</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => handleAction('Change Password')}>
                   Change Password
                 </Button>
               </div>
@@ -129,7 +153,7 @@ const Settings: React.FC = () => {
                     <p className="setting-description">Enterprise Plan • $99/month</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => handleAction('Manage Billing')}>
                   Manage Billing
                 </Button>
               </div>
@@ -142,5 +166,7 @@ const Settings: React.FC = () => {
 }
 
 export default Settings
+
+
 
 

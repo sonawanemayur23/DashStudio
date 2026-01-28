@@ -1,5 +1,5 @@
 import React from 'react'
-import { Loader2, Sparkles, Zap, Rocket, CheckCircle } from 'lucide-react'
+import { Loader2, Sparkles, Zap, Rocket } from 'lucide-react'
 import './Loading.css'
 
 interface LoadingProps {
@@ -48,5 +48,7 @@ const Loading: React.FC<LoadingProps> = ({
 }
 
 export default Loading
+
+
 
 

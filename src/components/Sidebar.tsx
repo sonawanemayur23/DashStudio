@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Home, LayoutGrid, Database, Settings, LogOut, Zap, Network, Sparkles } from 'lucide-react'
+import { LayoutGrid, Database, Settings, LogOut, Zap, Network, Sparkles } from 'lucide-react'
 import { ROUTES, isRouteActive } from '../constants/routes'
 import './Sidebar.css'
 
@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Always use consistent default items - pages should not override navigation
   const defaultItems: SidebarItem[] = [
-    { label: 'Home', icon: <Home size={20} />, path: ROUTES.HOME },
     { label: 'Dashboards', icon: <LayoutGrid size={20} />, path: ROUTES.DASHBOARDS },
     { label: 'Data Sources', icon: <Database size={20} />, path: ROUTES.DATA_SOURCES_UPLOAD },
     { label: 'Semantic Models', icon: <Network size={20} />, path: ROUTES.SEMANTIC_MODEL },
