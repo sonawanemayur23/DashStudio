@@ -14,6 +14,49 @@ const LoginPage: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
   const [selectedRole, setSelectedRole] = useState<Role>('owner')
   const [isLoading, setIsLoading] = useState(false)
+  // Hardcoded frontend-only credentials
+  const HARD_CREDENTIALS = { email: 'admin@olive.com', password: 'Olive@2026' }
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState<string | null>(null)
+  const [passwordError, setPasswordError] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<string | null>(null)
+
+  const validateEmail = (value: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+  }
+
+  const handleLogin = (e?: React.FormEvent) => {
+    e?.preventDefault()
+    setEmailError(null)
+    setPasswordError(null)
+    setAuthError(null)
+
+    let ok = true
+    if (!email) {
+      setEmailError('Email is required')
+      ok = false
+    } else if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email')
+      ok = false
+    }
+
+    if (!password) {
+      setPasswordError('Password is required')
+      ok = false
+    } else if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters')
+      ok = false
+    }
+
+    if (!ok) return
+
+    if (email === HARD_CREDENTIALS.email && password === HARD_CREDENTIALS.password) {
+      setIsLoading(true)
+    } else {
+      setAuthError('Invalid email or password')
+    }
+  }
 
   const roles = [
     {
@@ -212,37 +255,43 @@ const LoginPage: React.FC = () => {
           </div>
 
           {/* Role Selection */}
-          <div className="role-grid">
-            {roles.map((role) => (
-              <div
-                key={role.id}
-                className={`role-card ${selectedRole === role.id ? 'selected' : ''}`}
-                onClick={() => setSelectedRole(role.id)}
-              >
-                {selectedRole === role.id && (
-                  <div className="role-check">
-                    <Check size={16} />
-                  </div>
-                )}
-                <div className="role-icon">{role.icon}</div>
-                <div className="role-info">
-                  <div className="role-title">{role.title}</div>
-                  <div className="role-description">{role.description}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          
 
-          {/* Continue Button */}
-          <Button
-            variant="primary"
-            size="lg"
-            className="continue-button"
-            onClick={handleContinue}
-          >
-            Continue as {roles.find(r => r.id === selectedRole)?.title}
-            <ArrowRight size={18} />
-          </Button>
+          {/* Email / Password Login */}
+          <form className="auth-form" onSubmit={handleLogin}>
+            <label className="input-label">
+              Email
+              <input
+                className="auth-input"
+                type="email"
+                value={email}
+                onChange={(ev) => setEmail(ev.target.value)}
+                placeholder="you@company.com"
+                aria-label="Email"
+              />
+            </label>
+            {emailError && <div className="input-error">{emailError}</div>}
+
+            <label className="input-label">
+              Password
+              <input
+                className="auth-input"
+                type="password"
+                value={password}
+                onChange={(ev) => setPassword(ev.target.value)}
+                placeholder="Enter your password"
+                aria-label="Password"
+              />
+            </label>
+            {passwordError && <div className="input-error">{passwordError}</div>}
+
+            {authError && <div className="auth-error">{authError}</div>}
+
+            <Button variant="primary" size="lg" className="continue-button" type="submit">
+              Sign in
+              <ArrowRight size={18} />
+            </Button>
+          </form>
 
           {/* Divider */}
           <div className="divider">
